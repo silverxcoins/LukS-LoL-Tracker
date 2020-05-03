@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/top_graph"
+    app:startDestination="@id/emptyScreen">
+
+    <fragment
+        android:id="@+id/emptyScreen"
+        android:name="ru.mobile.lukslol.view.EmptyScreen"
+        android:label="EmptyScreen" >
+        <action
+            android:id="@+id/action_emptyScreen_to_enterSummonerScreen"
+            app:destination="@id/enterSummonerScreen"
+            app:popUpTo="@id/emptyScreen"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/enterSummonerScreen"
+        android:name="ru.mobile.lukslol.view.start.EnterSummonerScreen"
+        android:label="EnterSummonerScreen" />
+</navigation>

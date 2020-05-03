@@ -1,0 +1,63 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!-- Progress -->
+
+    <style name="CircularProgress" parent="AppTheme" />
+
+    <style name="CircularProgress.White">
+        <item name="colorAccent">@color/white</item>
+    </style>
+
+    <!-- Text styles -->
+
+    <style name="TextRoboto">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">0.01</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+    </style>
+
+    <style name="TextRoboto.Button">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">0.05</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+    </style>
+
+    <style name="TextRoboto.Button.White">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextRoboto.Title">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="TextRoboto.Title.White">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextRoboto.Body">
+        <item name="android:textSize">16sp</item>
+        <item name="android:letterSpacing">0.03</item>
+        <item name="android:lineSpacingExtra">10sp</item>
+    </style>
+
+    <style name="TextRoboto.Body.White">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextRoboto.Body.Light">
+        <item name="android:textColor">@color/textLight</item>
+    </style>
+
+</resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/enter_summoner_graph"
+    app:startDestination="@id/chooseRegionFragment">
+
+    <fragment
+        android:id="@+id/chooseRegionFragment"
+        android:name="ru.mobile.lukslol.view.start.ChooseRegionFragment"
+        android:label="ChooseRegionFragment">
+        <action
+            android:id="@+id/action_chooseRegionFragment_to_enterSummonerNameFragment"
+            app:destination="@id/enterSummonerNameFragment"
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/enterSummonerNameFragment"
+        android:name="ru.mobile.lukslol.view.start.EnterSummonerNameFragment"
+        android:label="EnterSummonerNameFragment" />
+</navigation>

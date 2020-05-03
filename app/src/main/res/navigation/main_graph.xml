@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/main_graph"
+    app:startDestination="@id/tapeScreen">
+
+    <fragment
+        android:id="@+id/tapeScreen"
+        android:name="ru.mobile.lukslol.view.tape.TapeScreen"
+        android:label="TapeScreen" />
+</navigation>

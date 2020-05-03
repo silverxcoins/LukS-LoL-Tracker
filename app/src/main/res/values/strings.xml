@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">LukS</string>
+
+    <!-- region Common -->
+    <string name="go">Вперёд</string>
+    <!-- endregion -->
+
+    <!-- region Start -->
+    <string name="choose_region">Выберите регион</string>
+    <string name="enter_summoner_hint">Введите имя</string>
+    <string name="enter_summoner_info">Введите имя своего аккаунта, это поможет нам получать данные о ваших играх</string>
+    <string name="enter_summoner_region_string">%s - %s</string>
+    <!-- endregion -->
+</resources>

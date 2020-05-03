@@ -10,8 +10,8 @@ abstract class BaseFragment : Fragment() {
 
     protected val disposable = CompositeDisposable()
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onDestroy() {
+        super.onDestroy()
 
         disposable.dispose()
     }

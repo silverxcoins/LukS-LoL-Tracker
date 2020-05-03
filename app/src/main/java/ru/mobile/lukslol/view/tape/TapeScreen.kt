@@ -6,11 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestBuilder
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import kotlinx.android.synthetic.main.screen_tape.*
 import ru.mobile.lukslol.R
 import ru.mobile.lukslol.di.Components
@@ -22,6 +18,8 @@ import javax.inject.Inject
 
 class TapeScreen : Screen() {
 
+    @Inject
+    lateinit var viewModel: TapeViewModel
     @Inject
     lateinit var screenResultProvider: ScreenResultProvider
 
@@ -40,27 +38,15 @@ class TapeScreen : Screen() {
         super.onViewCreated(view, savedInstanceState)
 
         screenResultProvider.results<EnterSummonerScreenResult>().subscribe { result ->
-            name.text = result.summoner.name
+            tape_summoner_name.text = result.summoner.name
             Glide.with(this)
                 .load(result.summoner.icon)
-                .onFinish {  }
-                .into(icon)
+                .placeholder(R.drawable.circle_placeholder)
+                .error(R.drawable.circle_placeholder)
+                .transform(RoundedCorners(resources.getDimensionPixelSize(R.dimen.tape_avatar_size) / 2))
+                .into(tape_summoner_icon)
         }.addTo(disposable)
     }
 
 
-}
-
-fun <T> RequestBuilder<T>.onFinish(onSuccess: (() -> Unit)? = null, onError: (() -> Unit)? = null): RequestBuilder<T> {
-    return listener(object : RequestListener<T> {
-        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<T>?, isFirstResource: Boolean): Boolean {
-            onError?.invoke()
-            return false
-        }
-
-        override fun onResourceReady(resource: T, model: Any?, target: Target<T>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-            onSuccess?.invoke()
-            return false
-        }
-    })
 }

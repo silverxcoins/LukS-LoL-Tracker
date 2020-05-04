@@ -1,15 +1,16 @@
 package ru.mobile.lukslol.di.module
 
-import android.content.SharedPreferences
+import android.content.Context
+import androidx.preference.PreferenceManager
 import dagger.Module
 import dagger.Provides
 import ru.mobile.lukslol.service.prefs.Prefs
 import javax.inject.Singleton
 
 @Module
-class PreferencesModule(private val prefs: Prefs) {
+class PreferencesModule {
 
     @Singleton
     @Provides
-    fun providePrefs() = prefs
+    fun providePrefs(context: Context) = Prefs(PreferenceManager.getDefaultSharedPreferences(context))
 }

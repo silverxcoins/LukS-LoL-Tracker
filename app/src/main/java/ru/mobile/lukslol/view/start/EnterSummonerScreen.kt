@@ -31,7 +31,7 @@ class EnterSummonerScreen : Screen() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        ViewModelProviders.of(this).get(EnterSummonerViewModel::class.java)
+        initViewModel(EnterSummonerViewModel::class)
         Components.enterSummonerComponent.get()?.inject(this)
     }
 

@@ -1,7 +1,8 @@
 package ru.mobile.lukslol.di.component
 
-import android.content.SharedPreferences
+import android.content.Context
 import com.google.gson.Gson
+import dagger.BindsInstance
 import dagger.Component
 import ru.mobile.lukslol.di.module.NetworkModule
 import ru.mobile.lukslol.di.module.PreferencesModule
@@ -14,6 +15,15 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [NetworkModule::class, PreferencesModule::class, ScreenHelpersModule::class])
 interface AppComponent {
+
+    @Component.Builder
+    interface Builder {
+
+        @BindsInstance
+        fun context(context: Context): Builder
+
+        fun build(): AppComponent
+    }
 
     fun networkManager(): NetworkManager
 

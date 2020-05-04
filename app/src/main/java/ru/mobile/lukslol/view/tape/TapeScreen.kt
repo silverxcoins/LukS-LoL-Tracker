@@ -27,7 +27,7 @@ class TapeScreen : Screen() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        ViewModelProviders.of(this).get(TapeViewModel::class.java)
+        initViewModel(TapeViewModel::class)
         Components.tapeScreenComponent.get()?.inject(this)
     }
 

@@ -24,7 +24,7 @@ object Components {
 
     val appComponent = ComponentHolder<AppComponent, Context> { context ->
         DaggerAppComponent.builder()
-            .preferencesModule(PreferencesModule(Prefs(PreferenceManager.getDefaultSharedPreferences(context))))
+            .context(context)
             .build()
     }
 

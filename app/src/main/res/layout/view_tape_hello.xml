@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ru.mobile.lukslol.view.tape.TapeHelloView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:background="@drawable/bg_tape_hello"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/TextRoboto.Title.White"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tape_hello_title"/>
+
+    <TextView
+        style="@style/TextRoboto.Body.Light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tape_hello_info"
+        android:layout_marginTop="16dp"/>
+
+</ru.mobile.lukslol.view.tape.TapeHelloView>

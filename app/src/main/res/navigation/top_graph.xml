@@ -7,13 +7,8 @@
     <fragment
         android:id="@+id/emptyScreen"
         android:name="ru.mobile.lukslol.view.EmptyScreen"
-        android:label="EmptyScreen" >
-        <action
-            android:id="@+id/action_emptyScreen_to_enterSummonerScreen"
-            app:destination="@id/enterSummonerScreen"
-            app:popUpTo="@id/emptyScreen"
-            app:popUpToInclusive="true" />
-    </fragment>
+        android:label="EmptyScreen"  />
+
     <fragment
         android:id="@+id/enterSummonerScreen"
         android:name="ru.mobile.lukslol.view.start.EnterSummonerScreen"

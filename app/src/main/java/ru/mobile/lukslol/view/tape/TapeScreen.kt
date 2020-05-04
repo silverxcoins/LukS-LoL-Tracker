@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import kotlinx.android.synthetic.main.screen_tape.*
@@ -37,15 +38,38 @@ class TapeScreen : Screen() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        screenResultProvider.results<EnterSummonerScreenResult>().subscribe { result ->
-            tape_summoner_name.text = result.summoner.name
-            Glide.with(this)
-                .load(result.summoner.icon)
-                .placeholder(R.drawable.circle_placeholder)
-                .error(R.drawable.circle_placeholder)
-                .transform(RoundedCorners(resources.getDimensionPixelSize(R.dimen.tape_avatar_size) / 2))
-                .into(tape_summoner_icon)
+        initClicks()
+        initList()
+        initViewModel()
+    }
+
+    private fun initClicks() {
+        tape_summoner_icon.setOnClickListener {
+            topNavController.navigate(R.id.enterSummonerScreen)
+        }
+    }
+
+    private fun initList() {
+        tape_list.apply {
+            layoutManager = LinearLayoutManager(context)
+            setController(TapeController())
+        }
+    }
+
+    private fun initViewModel() {
+        viewModel.summoner.subscribe { summoner ->
+            tape_summoner_name.text = summoner.name
+            loadSummonerIcon(summoner.icon)
         }.addTo(disposable)
+    }
+
+    private fun loadSummonerIcon(url: String) {
+        Glide.with(this)
+            .load(url)
+            .placeholder(R.drawable.circle_placeholder)
+            .error(R.drawable.circle_placeholder)
+            .transform(RoundedCorners(resources.getDimensionPixelSize(R.dimen.tape_avatar_size) / 2))
+            .into(tape_summoner_icon)
     }
 
 

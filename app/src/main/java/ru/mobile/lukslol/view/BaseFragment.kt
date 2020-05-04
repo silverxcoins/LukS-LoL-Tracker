@@ -1,5 +1,7 @@
 package ru.mobile.lukslol.view
 
+import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -8,10 +10,16 @@ import ru.mobile.lukslol.R
 
 abstract class BaseFragment : Fragment() {
 
-    protected val disposable = CompositeDisposable()
+    protected lateinit var disposable: CompositeDisposable
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        disposable = CompositeDisposable()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
 
         disposable.dispose()
     }

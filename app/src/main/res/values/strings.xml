@@ -6,9 +6,14 @@
     <!-- endregion -->
 
     <!-- region Start -->
-    <string name="choose_region">Выберите регион</string>
-    <string name="enter_summoner_hint">Введите имя</string>
-    <string name="enter_summoner_info">Введите имя своего аккаунта, это поможет нам получать данные о ваших играх</string>
+    <string name="choose_region">Выбери регион</string>
+    <string name="enter_summoner_hint">Введи имя</string>
+    <string name="enter_summoner_info">Введи имя своего аккаунта, это поможет нам получать данные о твоих играх</string>
     <string name="enter_summoner_region_string">%s - %s</string>
+    <!-- endregion -->
+
+    <!-- region TapeScreen -->
+    <string name="tape_hello_title">Добро пожаловать!</string>
+    <string name="tape_hello_info">Начни играть и наблюдай за своими достижениями!</string>
     <!-- endregion -->
 </resources>

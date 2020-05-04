@@ -6,6 +6,7 @@ import ru.mobile.lukslol.di.module.domain.SummonerModule
 import ru.mobile.lukslol.di.scope.DomainScope
 import ru.mobile.lukslol.domain.repository.SummonerRepository
 import ru.mobile.lukslol.view.start.EnterSummonerViewModel
+import ru.mobile.lukslol.view.tape.TapeViewModel
 
 @DomainScope
 @Component(dependencies = [AppComponent::class], modules = [SummonerModule::class])
@@ -14,4 +15,6 @@ interface SummonerComponent {
     fun summonerRepository(): SummonerRepository
 
     fun inject(vm: EnterSummonerViewModel)
+
+    fun inject(vm: TapeViewModel)
 }

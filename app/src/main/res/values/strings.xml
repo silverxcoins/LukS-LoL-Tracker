@@ -9,7 +9,6 @@
     <string name="choose_region">Выбери регион</string>
     <string name="enter_summoner_hint">Введи имя</string>
     <string name="enter_summoner_info">Введи имя своего аккаунта, это поможет нам получать данные о твоих играх</string>
-    <string name="enter_summoner_region_string">%s - %s</string>
     <!-- endregion -->
 
     <!-- region TapeScreen -->

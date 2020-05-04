@@ -5,7 +5,7 @@ class ComponentHolder<Component, ComponentInitializer>(
 ) {
     private var field: Component? = null
 
-    fun get() = field
+    fun get() = field!!
 
     fun create(initializer: ComponentInitializer) {
         field = createComponent(initializer)

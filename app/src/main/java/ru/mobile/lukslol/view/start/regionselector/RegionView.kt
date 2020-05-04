@@ -1,31 +1,38 @@
 package ru.mobile.lukslol.view.start.regionselector
 
 import android.content.Context
-import androidx.appcompat.view.ContextThemeWrapper
+import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 import com.airbnb.epoxy.CallbackProp
 import com.airbnb.epoxy.ModelProp
 import com.airbnb.epoxy.ModelView
 import ru.mobile.lukslol.R
+import ru.mobile.lukslol.databinding.ViewRegionBinding
 import ru.mobile.lukslol.domain.dto.Region
-import ru.mobile.lukslol.util.view.setRippleBackground
 
-@ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
-class RegionView(context: Context) : AppCompatTextView(ContextThemeWrapper(context, R.style.TextRoboto_Body_White)) {
+@ModelView(defaultLayout = R.layout.view_region)
+class RegionView : AppCompatTextView {
 
-    init {
-        val padding = resources.getDimensionPixelOffset(R.dimen.default_padding)
-        setPadding(padding, padding, padding, padding)
-        setRippleBackground()
-    }
+    constructor(context: Context?) : super(context)
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+
+    private val binding = ViewRegionBinding.bind(this).apply { eventHandler = EventHandler() }
+    private var clickListener: ((Region) -> Unit)? = null
 
     @ModelProp
     fun region(region: Region) {
-        text = resources.getString(R.string.enter_summoner_region_string, region.code, region.regionName)
+        binding.region = region
     }
 
     @CallbackProp
-    fun clickListener(listener: (() -> Unit)?) {
-        setOnClickListener { listener?.invoke() }
+    fun clickListener(listener: ((Region) -> Unit)?) {
+        clickListener = listener
+    }
+
+    inner class EventHandler {
+        fun onClick(region: Region) {
+            clickListener?.invoke(region)
+        }
     }
 }

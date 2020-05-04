@@ -1,8 +1,6 @@
 package ru.mobile.lukslol.view.start
 
-import android.util.Log
-import androidx.annotation.CallSuper
-import dagger.Component
+import androidx.databinding.ObservableField
 import io.reactivex.disposables.Disposable
 import ru.mobile.lukslol.di.Components
 import ru.mobile.lukslol.domain.ServiceType
@@ -10,13 +8,14 @@ import ru.mobile.lukslol.domain.dto.Region
 import ru.mobile.lukslol.domain.dto.Summoner
 import ru.mobile.lukslol.domain.repository.SummonerRepository
 import ru.mobile.lukslol.util.addTo
-import ru.mobile.lukslol.util.type.MutableProperty
-import ru.mobile.lukslol.util.type.NullableMutableProperty
+import ru.mobile.lukslol.util.type.NonNullField
 import ru.mobile.lukslol.view.BaseViewModel
 import ru.mobile.lukslol.view.screenresult.ScreenResult
 import ru.mobile.lukslol.view.screenresult.ScreenResultProvider
-import ru.mobile.lukslol.view.start.EnterSummonerAction.*
-import ru.mobile.lukslol.view.start.EnterSummonerDestination.*
+import ru.mobile.lukslol.view.start.EnterSummonerAction.Finish
+import ru.mobile.lukslol.view.start.EnterSummonerAction.MoveForward
+import ru.mobile.lukslol.view.start.EnterSummonerDestination.NAME
+import ru.mobile.lukslol.view.start.EnterSummonerDestination.REGION
 import ru.mobile.lukslol.view.start.EnterSummonerMutation.*
 import javax.inject.Inject
 
@@ -28,15 +27,15 @@ class EnterSummonerViewModel : BaseViewModel<EnterSummonerMutation, EnterSummone
     lateinit var screenResultProvider: ScreenResultProvider
 
     init {
-        Components.summonerComponent.get()!!.inject(this)
+        Components.summonerComponent.get().inject(this)
         Components.enterSummonerComponent.create(this)
     }
 
-    val region = MutableProperty(Region.RU)
-    val input = MutableProperty("")
-    val loading = MutableProperty(false)
+    val region = NonNullField(Region.RU)
+    val input = NonNullField("")
+    val loading = NonNullField(false)
 
-    private val summoner = NullableMutableProperty<Summoner>()
+    private val summoner = ObservableField<Summoner>()
 
     private var summonerLoadingDisposable: Disposable? = null
 

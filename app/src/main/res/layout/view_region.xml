@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="eventHandler"
+            type="ru.mobile.lukslol.view.start.regionselector.RegionView.EventHandler" />
+        <variable
+            name="region"
+            type="ru.mobile.lukslol.domain.dto.Region" />
+    </data>
+
+    <ru.mobile.lukslol.view.start.regionselector.RegionView
+        android:id="@+id/region_view"
+        style="@style/TextRoboto.Body.White"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        android:onClick="@{ _ -> eventHandler.onClick(region) }"
+        android:padding="16dp"
+        android:text='@{region.code + " - " + region.regionName}' />
+
+</layout>

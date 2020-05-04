@@ -14,7 +14,7 @@ class RegionSelectorController(private val regionClickListener: (Region) -> Unit
             regionView {
                 id(region.code)
                 region(region)
-                clickListener { regionClickListener(region) }
+                clickListener(regionClickListener)
             }
         }
     }

@@ -1,91 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <FrameLayout
-        android:id="@+id/enter_summoner_image"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/enter_summoner_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="screen"
+            type="ru.mobile.lukslol.view.start.EnterSummonerScreen" />
+        <variable
+            name="viewModel"
+            type="ru.mobile.lukslol.view.start.EnterSummonerViewModel" />
+    </data>
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/lol_background"
-            tools:ignore="ContentDescription" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/enter_summoner_image"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/enter_summoner_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/lol_background"
+                tools:ignore="ContentDescription" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_gravity="bottom"
+                android:background="@drawable/start_gradient" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/enter_summoner_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/colorPrimary"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/enter_summoner_image">
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/enter_summoner_navigation_fragment"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:defaultNavHost="true"
+                app:navGraph="@navigation/enter_summoner_graph"
+                tools:ignore="NestedWeights" />
+
+            <TextView
+                android:id="@+id/enter_summoner_go_btn"
+                style="@style/TextRoboto.Button.White"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/accent_ripple"
+                android:gravity="center"
+                android:onClick="@{ _ -> screen.goBtnClick() }"
+                android:text="@string/go" />
+
+        </LinearLayout>
 
         <View
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_gravity="bottom"
-            android:background="@drawable/start_gradient" />
-    </FrameLayout>
-
-    <LinearLayout
-        android:id="@+id/enter_summoner_content"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/colorPrimary"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/enter_summoner_image">
-
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/enter_summoner_navigation_fragment"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="match_parent"
+            android:id="@+id/enter_summoner_loading_background"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/enter_summoner_graph"
-            tools:ignore="NestedWeights" />
+            android:background="#88000000"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/enter_summoner_go_btn"
-            style="@style/TextRoboto.Button.White"
-            android:layout_width="match_parent"
+        <ProgressBar
+            android:id="@+id/enter_summoner_progress_bar"
+            style="@style/CircularProgress.White"
+            android:layout_width="48dp"
             android:layout_height="48dp"
-            android:background="@drawable/accent_ripple"
-            android:gravity="center"
-            android:text="@string/go" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/enter_summoner_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility='@{ viewModel.loading ? View.VISIBLE : View.GONE }'
+            app:constraint_referenced_ids="enter_summoner_loading_background,enter_summoner_progress_bar" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <View
-        android:id="@+id/enter_summoner_loading_background"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="#88000000"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ProgressBar
-        android:id="@+id/enter_summoner_progress_bar"
-        style="@style/CircularProgress.White"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/enter_summoner_loading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="enter_summoner_loading_background,enter_summoner_progress_bar" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

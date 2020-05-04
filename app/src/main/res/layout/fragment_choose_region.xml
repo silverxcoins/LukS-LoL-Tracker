@@ -1,32 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:background="@color/colorPrimary">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        style="@style/TextRoboto.Title.White"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        android:layout_marginTop="32dp"
-        android:text="@string/choose_region" />
+    <data>
+        <variable
+            name="fragment"
+            type="ru.mobile.lukslol.view.start.ChooseRegionFragment" />
+        <variable
+            name="viewModel"
+            type="ru.mobile.lukslol.view.start.EnterSummonerViewModel" />
+    </data>
 
-    <TextView
-        android:id="@+id/choose_region_region_text"
-        style="@style/TextRoboto.Body.White"
-        android:layout_width="wrap_content"
-        android:layout_height="56dp"
-        android:background="@drawable/btn_white_border_ripple"
-        android:layout_gravity="center_horizontal"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:drawablePadding="8dp"
-        android:drawableStart="@drawable/ic_globe"
-        android:gravity="center"
-        android:layout_marginTop="32dp"
-        tools:text="ru - Russia"/>
-</LinearLayout>
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:background="@color/colorPrimary">
+
+        <TextView
+            style="@style/TextRoboto.Title.White"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:text="@string/choose_region" />
+
+        <TextView
+            android:id="@+id/choose_region_region_text"
+            style="@style/TextRoboto.Body.White"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/btn_white_border_ripple"
+            android:drawableStart="@drawable/ic_globe"
+            android:drawablePadding="8dp"
+            android:gravity="center"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:onClick="@{ _ -> fragment.regionClick() }"
+            android:text='@{viewModel.region.code + " - " + viewModel.region.regionName}'
+            tools:text="RU - Russia"/>
+    </LinearLayout>
+
+</layout>

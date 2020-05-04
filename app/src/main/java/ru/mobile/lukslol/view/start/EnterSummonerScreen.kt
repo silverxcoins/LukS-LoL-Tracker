@@ -4,14 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.screen_enter_summoner.*
 import ru.mobile.lukslol.R
+import ru.mobile.lukslol.databinding.ScreenEnterSummonerBinding
 import ru.mobile.lukslol.di.Components
 import ru.mobile.lukslol.util.addTo
 import ru.mobile.lukslol.util.setEndCancelListener
-import ru.mobile.lukslol.util.view.show
 import ru.mobile.lukslol.view.Screen
 import ru.mobile.lukslol.view.start.EnterSummonerAction.Finish
 import ru.mobile.lukslol.view.start.EnterSummonerAction.MoveForward
@@ -32,17 +31,19 @@ class EnterSummonerScreen : Screen() {
         super.onCreate(savedInstanceState)
 
         initViewModel(EnterSummonerViewModel::class)
-        Components.enterSummonerComponent.get()?.inject(this)
+        Components.enterSummonerComponent.get().inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.screen_enter_summoner, container, false)
+        val binding = inflateBinding<ScreenEnterSummonerBinding>(inflater, R.layout.screen_enter_summoner, container)
+        binding.screen = this
+        binding.viewModel = viewModel
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initViews()
         initViewModel()
     }
 
@@ -56,11 +57,9 @@ class EnterSummonerScreen : Screen() {
         }
     }
 
-    private fun initViews() {
-        enter_summoner_go_btn.setOnClickListener {
-            val currentDestination = EnterSummonerDestination.fromId(navController().currentDestination!!.id)
-            viewModel.mutate(GoClick(currentDestination!!))
-        }
+    fun goBtnClick() {
+        val currentDestination = EnterSummonerDestination.fromId(navController().currentDestination!!.id)
+        viewModel.mutate(GoClick(currentDestination!!))
     }
 
     private fun initViewModel() {
@@ -69,9 +68,6 @@ class EnterSummonerScreen : Screen() {
                 MoveForward -> navController().navigate(R.id.action_chooseRegionFragment_to_enterSummonerNameFragment)
                 Finish -> startFinishAnimation()
             }
-        }.addTo(disposable)
-        viewModel.loading.subscribe { loading ->
-            enter_summoner_loading.show(loading)
         }.addTo(disposable)
     }
 

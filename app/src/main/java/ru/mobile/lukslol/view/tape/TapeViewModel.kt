@@ -33,7 +33,7 @@ class TapeViewModel : BaseViewModel<Any, Any>() {
 
     private fun subscribeSummoner() {
         launch {
-            screenResultProvider.collectResults(EnterSummonerScreenResult::class) { result ->
+            screenResultProvider.collectResults<EnterSummonerScreenResult> { result ->
                 summoner.set(result.summoner)
             }
         }

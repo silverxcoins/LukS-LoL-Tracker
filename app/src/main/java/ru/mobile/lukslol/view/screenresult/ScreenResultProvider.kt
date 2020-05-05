@@ -19,9 +19,9 @@ class ScreenResultProvider {
     }
 
     @Suppress("UNCHECKED_CAST")
-    suspend fun <T : ScreenResult> collectResults(clazz: KClass<T>, action: (T) -> Unit) {
+    suspend fun <T : ScreenResult> collectResults(action: (T) -> Unit) {
         return results.flow()
-            .filter { result -> clazz.isInstance(result) }
+            .filter { result -> (result as? T) != null }
             .map { result -> result as T }
             .collect { result ->  action(result) }
     }

@@ -1,19 +1,19 @@
 package ru.mobile.lukslol.view.start
 
 import androidx.databinding.ObservableField
-import io.reactivex.disposables.Disposable
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import ru.mobile.lukslol.di.Components
 import ru.mobile.lukslol.domain.ServiceType
 import ru.mobile.lukslol.domain.dto.Region
 import ru.mobile.lukslol.domain.dto.Summoner
 import ru.mobile.lukslol.domain.repository.SummonerRepository
-import ru.mobile.lukslol.util.addTo
 import ru.mobile.lukslol.util.type.NonNullField
 import ru.mobile.lukslol.view.BaseViewModel
 import ru.mobile.lukslol.view.screenresult.ScreenResult
 import ru.mobile.lukslol.view.screenresult.ScreenResultProvider
-import ru.mobile.lukslol.view.start.EnterSummonerAction.Finish
-import ru.mobile.lukslol.view.start.EnterSummonerAction.MoveForward
+import ru.mobile.lukslol.view.start.EnterSummonerAction.*
 import ru.mobile.lukslol.view.start.EnterSummonerDestination.NAME
 import ru.mobile.lukslol.view.start.EnterSummonerDestination.REGION
 import ru.mobile.lukslol.view.start.EnterSummonerMutation.*
@@ -37,7 +37,7 @@ class EnterSummonerViewModel : BaseViewModel<EnterSummonerMutation, EnterSummone
 
     private val summoner = ObservableField<Summoner>()
 
-    private var summonerLoadingDisposable: Disposable? = null
+    private var summonerLoadingJob: Job? = null
 
     override fun update(mutation: EnterSummonerMutation) {
         when (mutation) {
@@ -54,7 +54,7 @@ class EnterSummonerViewModel : BaseViewModel<EnterSummonerMutation, EnterSummone
             }
             is BackPressed -> {
                 loading.set(false)
-                summonerLoadingDisposable?.dispose()
+                summonerLoadingJob?.cancel()
             }
             is SummonerLoaded -> {
                 loading.set(false)
@@ -63,6 +63,7 @@ class EnterSummonerViewModel : BaseViewModel<EnterSummonerMutation, EnterSummone
             }
             is SummonerLoadFailed -> {
                 loading.set(false)
+                action(ShowErrorSnack(mutation.exception))
             }
         }
     }
@@ -74,11 +75,14 @@ class EnterSummonerViewModel : BaseViewModel<EnterSummonerMutation, EnterSummone
     }
 
     private fun loadSummoner() {
-        summonerLoadingDisposable = summonerRepository.getSummoner(ServiceType.NETWORK, region.get(), input.get())
-            .subscribe(
-                { summoner -> mutate(SummonerLoaded(summoner)) },
-                { mutate(SummonerLoadFailed) }
-            ).addTo(compositeDisposable)
+        summonerLoadingJob = launch {
+            try {
+                val summoner = summonerRepository.getSummoner(ServiceType.NETWORK, region.get(), input.get())
+                if (isActive) mutate(SummonerLoaded(summoner))
+            } catch (e: Exception) {
+                if (isActive) mutate(SummonerLoadFailed(e))
+            }
+        }
     }
 }
 

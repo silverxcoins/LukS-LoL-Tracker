@@ -1,9 +1,9 @@
 package ru.mobile.lukslol.view.tape
 
+import androidx.databinding.ObservableField
+import kotlinx.coroutines.launch
 import ru.mobile.lukslol.di.Components
 import ru.mobile.lukslol.domain.dto.Summoner
-import ru.mobile.lukslol.util.addTo
-import ru.mobile.lukslol.util.type.NullableMutableProperty
 import ru.mobile.lukslol.view.BaseViewModel
 import ru.mobile.lukslol.view.screenresult.ScreenResultProvider
 import ru.mobile.lukslol.view.start.EnterSummonerScreenResult
@@ -16,12 +16,12 @@ class TapeViewModel : BaseViewModel<Any, Any>() {
 
     init {
         Components.tapeScreenComponent.create(this)
-        Components.summonerComponent.get()?.inject(this)
+        Components.summonerComponent.get().inject(this)
 
         subscribeSummoner()
     }
 
-    val summoner = NullableMutableProperty<Summoner>()
+    val summoner = ObservableField<Summoner>()
 
     override fun update(mutation: Any) {
     }
@@ -32,8 +32,10 @@ class TapeViewModel : BaseViewModel<Any, Any>() {
     }
 
     private fun subscribeSummoner() {
-        screenResultProvider.results<EnterSummonerScreenResult>()
-            .subscribe { result -> summoner.set(result.summoner) }
-            .addTo(compositeDisposable)
+        launch {
+            screenResultProvider.collectResults(EnterSummonerScreenResult::class) { result ->
+                summoner.set(result.summoner)
+            }
+        }
     }
 }

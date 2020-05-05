@@ -3,12 +3,15 @@
 
     <!-- region Common -->
     <string name="go">Вперёд</string>
+    <string name="error_unknown">Неизвестная ошибка</string>
+    <string name="error_network_connection">Ошибка сети</string>
     <!-- endregion -->
 
     <!-- region Start -->
     <string name="choose_region">Выбери регион</string>
     <string name="enter_summoner_hint">Введи имя</string>
     <string name="enter_summoner_info">Введи имя своего аккаунта, это поможет нам получать данные о твоих играх</string>
+    <string name="enter_summoner_not_found">Призыватель не найден</string>
     <!-- endregion -->
 
     <!-- region TapeScreen -->

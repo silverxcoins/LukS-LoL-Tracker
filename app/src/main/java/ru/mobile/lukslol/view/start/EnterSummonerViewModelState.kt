@@ -10,12 +10,13 @@ sealed class EnterSummonerMutation {
     data class RegionChanged(val region: Region) : EnterSummonerMutation()
     object BackPressed : EnterSummonerMutation()
     data class SummonerLoaded(val summoner: Summoner) : EnterSummonerMutation()
-    object SummonerLoadFailed : EnterSummonerMutation()
+    data class SummonerLoadFailed(val exception: Exception) : EnterSummonerMutation()
 }
 
 sealed class EnterSummonerAction {
     object MoveForward : EnterSummonerAction()
     object Finish : EnterSummonerAction()
+    data class ShowErrorSnack(val e: Exception) : EnterSummonerAction()
 }
 
 enum class EnterSummonerDestination {

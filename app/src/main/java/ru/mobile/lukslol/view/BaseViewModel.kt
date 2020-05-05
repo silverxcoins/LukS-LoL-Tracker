@@ -2,47 +2,47 @@ package ru.mobile.lukslol.view
 
 import androidx.annotation.CallSuper
 import androidx.lifecycle.ViewModel
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
-import io.reactivex.subjects.PublishSubject
-import ru.mobile.lukslol.util.addTo
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
 
-abstract class BaseViewModel<Mutation, Action> : ViewModel() {
+abstract class BaseViewModel<Mutation, Action> : ViewModel(), CoroutineScope by MainScope() {
 
-    private val mutations = PublishSubject.create<Mutation>()
-    private val actions = PublishSubject.create<Action>()
+    private val mutations = Channel<Mutation>()
+    private val actions = Channel<Action>()
     protected val compositeDisposable = CompositeDisposable()
 
     init {
-        subscribeOnMutations()
+        receiveMutations()
     }
 
     @CallSuper
     override fun onCleared() {
         compositeDisposable.clear()
+        cancel()
     }
 
     fun mutate(mutation: Mutation) {
-        mutations.onNext(mutation)
+        launch {
+            mutations.send(mutation)
+        }
     }
 
-    fun actions(action: (Action) -> Unit): Disposable {
-        return actions.observeOn(AndroidSchedulers.mainThread())
-            .subscribe(action)
+    suspend fun actions(onAction: (Action) -> Unit) {
+        for (action in actions) onAction(action)
     }
 
     protected fun action(action: Action) {
-        actions.onNext(action)
+        launch(Dispatchers.Main) {
+            actions.send(action)
+        }
     }
 
     protected abstract fun update(mutation: Mutation)
 
-    private fun subscribeOnMutations() {
-        mutations.observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                ::update,
-                { /* TODO safeThrow */ }
-            ).addTo(compositeDisposable)
+    private fun receiveMutations() {
+        launch(Dispatchers.Main) {
+            for (mutation in mutations) update(mutation)
+        }
     }
 }

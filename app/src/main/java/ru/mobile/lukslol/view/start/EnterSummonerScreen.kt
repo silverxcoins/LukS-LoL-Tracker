@@ -5,15 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.screen_enter_summoner.*
+import kotlinx.coroutines.launch
 import ru.mobile.lukslol.R
 import ru.mobile.lukslol.databinding.ScreenEnterSummonerBinding
 import ru.mobile.lukslol.di.Components
-import ru.mobile.lukslol.util.addTo
+import ru.mobile.lukslol.domain.error.NetworkError
 import ru.mobile.lukslol.util.setEndCancelListener
 import ru.mobile.lukslol.view.Screen
-import ru.mobile.lukslol.view.start.EnterSummonerAction.Finish
-import ru.mobile.lukslol.view.start.EnterSummonerAction.MoveForward
+import ru.mobile.lukslol.view.start.EnterSummonerAction.*
 import ru.mobile.lukslol.view.start.EnterSummonerMutation.BackPressed
 import ru.mobile.lukslol.view.start.EnterSummonerMutation.GoClick
 import javax.inject.Inject
@@ -63,12 +64,22 @@ class EnterSummonerScreen : Screen() {
     }
 
     private fun initViewModel() {
-        viewModel.actions { action ->
-            when (action) {
-                MoveForward -> navController().navigate(R.id.action_chooseRegionFragment_to_enterSummonerNameFragment)
-                Finish -> startFinishAnimation()
+        launch {
+            viewModel.actions { action ->
+                when (action) {
+                    is MoveForward -> navController().navigate(R.id.action_chooseRegionFragment_to_enterSummonerNameFragment)
+                    is Finish -> startFinishAnimation()
+                    is ShowErrorSnack -> {
+                        val errorTextRes = when (action.e) {
+                            NetworkError.NOT_FOUND -> R.string.enter_summoner_not_found
+                            NetworkError.CONNECTION -> R.string.error_network_connection
+                            else -> R.string.error_unknown
+                        }
+                        Snackbar.make(requireView(), errorTextRes, Snackbar.LENGTH_SHORT).show()
+                    }
+                }
             }
-        }.addTo(disposable)
+        }
     }
 
     private fun navController() = Navigation.findNavController(enter_summoner_navigation_fragment)

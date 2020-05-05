@@ -1,21 +1,28 @@
 package ru.mobile.lukslol.view.screenresult
 
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.subjects.PublishSubject
-import ru.mobile.lukslol.util.rx.filterIsInstance
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import ru.mobile.lukslol.util.type.ChannelFlow
+import kotlin.reflect.KClass
 
 class ScreenResultProvider {
 
-    val allResults = PublishSubject.create<ScreenResult>()
+    private val results = ChannelFlow<ScreenResult>()
 
     fun newResult(result: ScreenResult) {
-        allResults.onNext(result)
+        GlobalScope.launch {
+            results.send(result)
+        }
     }
 
-    inline fun <reified T : ScreenResult> results(): Observable<T> {
-        return allResults
-            .observeOn(AndroidSchedulers.mainThread())
-            .filterIsInstance()
+    @Suppress("UNCHECKED_CAST")
+    suspend fun <T : ScreenResult> collectResults(clazz: KClass<T>, action: (T) -> Unit) {
+        return results.flow()
+            .filter { result -> clazz.isInstance(result) }
+            .map { result -> result as T }
+            .collect { result ->  action(result) }
     }
 }

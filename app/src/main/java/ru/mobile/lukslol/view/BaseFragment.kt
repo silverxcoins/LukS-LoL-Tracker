@@ -11,9 +11,12 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 import ru.mobile.lukslol.R
 
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment : Fragment(), CoroutineScope by MainScope() {
 
     protected lateinit var disposable: CompositeDisposable
 
@@ -27,6 +30,7 @@ abstract class BaseFragment : Fragment() {
         super.onDestroyView()
 
         disposable.dispose()
+        cancel()
     }
 
     protected val mainNavController: NavController

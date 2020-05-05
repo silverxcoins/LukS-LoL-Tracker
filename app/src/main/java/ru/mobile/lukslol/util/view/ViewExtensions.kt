@@ -1,7 +1,9 @@
 package ru.mobile.lukslol.util.view
 
+import android.content.Context
 import android.util.TypedValue
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import ru.mobile.lukslol.R
 
 fun View.show(show: Boolean) {
@@ -21,6 +23,11 @@ fun View.setRippleBackground(borderless: Boolean = false) {
 
 fun View.addOneShotLayoutChangeListener(onLayoutAction: () -> Unit) {
     addOnLayoutChangeListener(OneShotLayoutChangeListener(this, onLayoutAction))
+}
+
+fun View.hideKeyboard() {
+    (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+        .hideSoftInputFromWindow(windowToken, 0)
 }
 
 private class OneShotLayoutChangeListener(private val view: View, private val onLayoutAction: () -> Unit)

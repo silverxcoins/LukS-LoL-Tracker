@@ -49,6 +49,7 @@ class EnterSummonerViewModel : BaseViewModel<EnterSummonerMutation, EnterSummone
                     NAME -> {
                         loading.set(true)
                         loadSummoner()
+                        action(HideKeyboard)
                     }
                 }
             }

@@ -17,6 +17,7 @@ sealed class EnterSummonerAction {
     object MoveForward : EnterSummonerAction()
     object Finish : EnterSummonerAction()
     data class ShowErrorSnack(val e: Exception) : EnterSummonerAction()
+    object HideKeyboard : EnterSummonerAction()
 }
 
 enum class EnterSummonerDestination {

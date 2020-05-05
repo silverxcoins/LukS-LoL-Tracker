@@ -46,6 +46,11 @@ dependencies {
     // Navigation
     implementation 'androidx.navigation:navigation-fragment:2.3.0-alpha06'
 
+    // Room
+    implementation "android.arch.persistence.room:runtime:1.1.1"
+    kapt "android.arch.persistence.room:compiler:1.1.1"
+    implementation "androidx.room:room-ktx:2.2.5"
+
     // Dagger
     implementation 'com.google.dagger:dagger:2.24'
     kapt 'com.google.dagger:dagger-compiler:2.24'

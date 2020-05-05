@@ -13,6 +13,7 @@ import ru.mobile.lukslol.databinding.ScreenEnterSummonerBinding
 import ru.mobile.lukslol.di.Components
 import ru.mobile.lukslol.domain.error.NetworkError
 import ru.mobile.lukslol.util.setEndCancelListener
+import ru.mobile.lukslol.util.view.hideKeyboard
 import ru.mobile.lukslol.view.Screen
 import ru.mobile.lukslol.view.start.EnterSummonerAction.*
 import ru.mobile.lukslol.view.start.EnterSummonerMutation.BackPressed
@@ -68,6 +69,7 @@ class EnterSummonerScreen : Screen() {
             viewModel.actions { action ->
                 when (action) {
                     is MoveForward -> navController().navigate(R.id.action_chooseRegionFragment_to_enterSummonerNameFragment)
+                    is HideKeyboard -> view?.hideKeyboard()
                     is Finish -> startFinishAnimation()
                     is ShowErrorSnack -> {
                         val errorTextRes = when (action.e) {

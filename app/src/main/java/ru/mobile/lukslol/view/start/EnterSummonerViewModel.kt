@@ -27,7 +27,7 @@ class EnterSummonerViewModel : BaseViewModel<EnterSummonerMutation, EnterSummone
     lateinit var screenResultProvider: ScreenResultProvider
 
     init {
-        Components.summonerComponent.get().inject(this)
+        Components.appComponent.get().inject(this)
         Components.enterSummonerComponent.create(this)
     }
 

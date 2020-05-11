@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="ru.mobile.lukslol.util.DateFormat" />
+
+        <variable
+            name="post"
+            type="ru.mobile.lukslol.domain.dto.Post.Greeting" />
+    </data>
+
+    <ru.mobile.lukslol.view.tape.TapeGreetingView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_tape_hello"
+        android:orientation="vertical"
+        android:paddingBottom="16dp">
+
+        <TextView
+            android:id="@+id/tape_post_greeting_summoner_name"
+            style="@style/TextRoboto.Caption.White.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:background="@color/colorAccent"
+            android:layout_marginTop="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="32dp"
+            android:paddingBottom="6dp"
+            android:text="@{post.summoner.name}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Silverxcoins" />
+
+        <View
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            app:layout_constraintBottom_toBottomOf="@id/tape_post_greeting_summoner_name"
+            app:layout_constraintDimensionRatio="H, 1:1"
+            app:layout_constraintStart_toEndOf="@id/tape_post_greeting_summoner_name"
+            app:layout_constraintTop_toTopOf="@id/tape_post_greeting_summoner_name"
+            android:backgroundTint="#3A4856"
+            android:translationX="-19dp"
+            android:background="@drawable/circle"/>
+
+        <ImageView
+            android:id="@+id/tape_post_greeting_summoner_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:translationX="-16dp"
+            app:layout_constraintBottom_toBottomOf="@id/tape_post_greeting_summoner_name"
+            app:layout_constraintDimensionRatio="H, 1:1"
+            app:layout_constraintStart_toEndOf="@id/tape_post_greeting_summoner_name"
+            app:layout_constraintTop_toTopOf="@id/tape_post_greeting_summoner_name"
+            app:tapeSummonerAvatar="@{post.summoner.icon}"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            style="@style/TextRoboto.Caption.White.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@{DateFormat.DDMMMM.format(post.date)}"
+            app:layout_constraintBottom_toBottomOf="@id/tape_post_greeting_summoner_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tape_post_greeting_summoner_name"
+            tools:text="13 марта" />
+
+        <TextView
+            android:id="@+id/tape_post_greeting_title"
+            style="@style/TextRoboto.Title.White"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:text="@{post.title}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tape_post_greeting_summoner_name"
+            tools:text="Добро пожаловать!" />
+
+        <TextView
+            android:id="@+id/tape_post_greeting_message"
+            style="@style/TextRoboto.Body.Light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:text="@{post.message}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tape_post_greeting_title"
+            tools:text="Начни играть и наблюдай за своими достижениями!" />
+
+    </ru.mobile.lukslol.view.tape.TapeGreetingView>
+
+</layout>

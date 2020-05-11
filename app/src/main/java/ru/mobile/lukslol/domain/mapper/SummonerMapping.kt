@@ -5,7 +5,7 @@ import ru.mobile.lukslol.service.db.entity.DbSummoner
 import ru.mobile.lukslol.service.network.dto.NetworkSummoner
 
 fun NetworkSummoner.toDomainSummoner(): Summoner {
-    return Summoner(id, name, icon, level)
+    return Summoner(puuid, name, icon, level)
 }
 
 fun DbSummoner.toDomainSummoner(): Summoner {

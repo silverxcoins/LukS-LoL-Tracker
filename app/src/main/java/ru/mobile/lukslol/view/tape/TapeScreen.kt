@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import androidx.databinding.Observable
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -40,6 +41,8 @@ class TapeScreen : Screen() {
     @Inject
     lateinit var screenResultProvider: ScreenResultProvider
 
+    private val controller = TapeController()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -68,8 +71,9 @@ class TapeScreen : Screen() {
     private fun initList() {
         tape_list.apply {
             layoutManager = LinearLayoutManager(context)
-            setController(TapeController())
+            setController(controller)
         }
+        viewModel.posts.observe(::getLifecycle) { posts -> controller.posts = posts }
     }
 
     private fun initActions() {

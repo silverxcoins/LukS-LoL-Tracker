@@ -21,7 +21,7 @@ class RegionView : AppCompatTextView {
     private var clickListener: ((Region) -> Unit)? = null
 
     @ModelProp
-    fun region(region: Region) {
+    fun region(region: Region) {x
         binding.region = region
     }
 

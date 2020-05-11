@@ -13,9 +13,4 @@
     <string name="enter_summoner_info">Введи имя своего аккаунта, это поможет нам получать данные о твоих играх</string>
     <string name="enter_summoner_not_found">Призыватель не найден</string>
     <!-- endregion -->
-
-    <!-- region TapeScreen -->
-    <string name="tape_hello_title">Добро пожаловать!</string>
-    <string name="tape_hello_info">Начни играть и наблюдай за своими достижениями!</string>
-    <!-- endregion -->
 </resources>

@@ -19,7 +19,6 @@ class App : Application() {
 
         instance = this
         Components.appComponent.create(this)
-        Components.summonerComponent.create(EmptyInitializer)
     }
 
 }

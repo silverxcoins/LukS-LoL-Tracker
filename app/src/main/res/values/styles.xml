@@ -60,4 +60,18 @@
         <item name="android:textColor">@color/textLight</item>
     </style>
 
+    <style name="TextRoboto.Caption">
+        <item name="android:textSize">12sp</item>
+        <item name="android:letterSpacing">0.03</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+    </style>
+
+    <style name="TextRoboto.Caption.White">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextRoboto.Caption.White.Bold">
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

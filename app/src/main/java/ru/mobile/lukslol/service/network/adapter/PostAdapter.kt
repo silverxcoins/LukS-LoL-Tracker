@@ -5,7 +5,9 @@ import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import ru.mobile.lukslol.service.network.dto.NetworkPost
 import ru.mobile.lukslol.service.network.dto.NetworkPost.*
+import ru.mobile.lukslol.service.network.dto.NetworkSummoner
 import ru.mobile.lukslol.util.parse
+import ru.mobile.lukslol.util.tryOrNull
 import java.lang.Exception
 import java.lang.reflect.Type
 
@@ -17,6 +19,7 @@ class PostAdapter : JsonDeserializer<NetworkPost> {
         val title = jsonObject["title"].asString
         val date = jsonObject["dateTime"].asString
         val type = jsonObject["postType"].asString
+        val summoner = tryOrNull { context.parse<NetworkSummoner>(jsonObject["summoner"]) }
         val dataElement = jsonObject["postData"]
         val data = try {
             when (type) {
@@ -28,6 +31,6 @@ class PostAdapter : JsonDeserializer<NetworkPost> {
             PostData.Unknown
         }
 
-        return NetworkPost(id, puuid, title, date, type, data)
+        return NetworkPost(id, puuid, title, date, summoner, type, data)
     }
 }

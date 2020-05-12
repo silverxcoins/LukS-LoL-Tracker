@@ -7,22 +7,18 @@ data class NetworkPost(
     val puuid: String,
     val title: String,
     val date: String,
+    val summoner: NetworkSummoner?,
     val type: String,
     val data: PostData
 ) {
     sealed class PostData {
         object Unknown : PostData()
 
-        data class Custom(
-            val content: String
-        ) : PostData() {
+        data class Custom(val content: String) : PostData() {
             companion object { const val serverName = "CUSTOM" }
         }
 
-        data class Greeting(
-            val message: String,
-            val summoner: NetworkSummoner
-        ) : PostData() {
+        data class Greeting(val message: String) : PostData() {
             companion object { const val serverName = "GREETING" }
         }
     }

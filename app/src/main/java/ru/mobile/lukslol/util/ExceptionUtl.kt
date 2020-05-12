@@ -11,9 +11,17 @@ fun Exception.toNetworkError(): NetworkError {
     }
 }
 
-suspend fun <T> ignoreErrors(action: suspend () -> T) {
+fun <T> ignoreErrors(action: () -> T) {
     try {
         action()
     } catch (e: Exception) {
+    }
+}
+
+fun <T> tryOrNull(action : () -> T): T? {
+    return try {
+        action()
+    } catch (e: Exception) {
+        null
     }
 }

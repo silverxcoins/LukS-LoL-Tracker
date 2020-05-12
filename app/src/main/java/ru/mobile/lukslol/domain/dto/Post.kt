@@ -6,6 +6,7 @@ sealed class Post {
     abstract val id: String
     abstract val puuid: String
     abstract val title: String
+    abstract val summoner: Summoner?
     abstract val date: Calendar
 
     data class Custom(
@@ -13,6 +14,7 @@ sealed class Post {
         override val puuid: String,
         override val title: String,
         override val date: Calendar,
+        override val summoner: Summoner?,
         val content: String
     ) : Post()
 
@@ -21,7 +23,7 @@ sealed class Post {
         override val puuid: String,
         override val title: String,
         override val date: Calendar,
-        val message: String,
-        val summoner: Summoner
+        override val summoner: Summoner?,
+        val message: String
     ) : Post()
 }

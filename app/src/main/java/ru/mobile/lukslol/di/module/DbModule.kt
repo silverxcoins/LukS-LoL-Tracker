@@ -12,5 +12,5 @@ class DbModule {
 
     @Singleton
     @Provides
-    fun provideDb(context: Context) = Room.databaseBuilder(context, Database::class.java, "luksDatabase").build();
+    fun provideDb(context: Context) = Room.databaseBuilder(context, Database::class.java, "luksDatabase").build()
 }

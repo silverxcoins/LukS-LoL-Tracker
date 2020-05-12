@@ -4,6 +4,7 @@ import androidx.databinding.ObservableField
 import kotlinx.coroutines.launch
 import ru.mobile.lukslol.di.Components
 import ru.mobile.lukslol.domain.ServiceType
+import ru.mobile.lukslol.domain.ServiceType.*
 import ru.mobile.lukslol.domain.dto.Post
 import ru.mobile.lukslol.domain.dto.Summoner
 import ru.mobile.lukslol.domain.repository.FeedRepository
@@ -42,18 +43,38 @@ class TapeViewModel : BaseViewModel<TapeMutation, TapeAction>() {
     val posts = NonNullLiveData(emptyList<Post>())
     val refreshing = NonNullField(false)
 
+    private var postServiceType: ServiceType = DB
+
     override fun update(mutation: TapeMutation) {
         when (mutation) {
             is SummonerReceived -> {
                 summoner.set(mutation.summoner)
                 refreshing.set(true)
-                loadPosts(fromStart = true)
+                loadPosts(DB, fromStart = true)
+                loadPosts(NETWORK, fromStart = true)
             }
             is NoSummonerInDb, SummonerIconClick -> action(ShowEnterSummonerScreen)
             is PostsReceived -> {
-                val newPosts = if (refreshing.get()) mutation.posts else posts.value + mutation.posts
-                posts.value = newPosts
-                refreshing.set(false)
+                posts.value = when (postServiceType) {
+                    DB -> {
+                        if (mutation.serviceType == DB) {
+                            posts.value + mutation.posts
+                        } else {
+                            postServiceType = NETWORK
+                            mutation.posts
+                        }
+                    }
+                    NETWORK -> {
+                        if (mutation.serviceType == NETWORK) {
+                            val refreshing = refreshing.get()
+                            this.refreshing.set(false)
+                            if (refreshing) mutation.posts else posts.value + mutation.posts
+                        } else {
+                            posts.value
+                        }
+                    }
+                    else -> throw NotImplementedError()
+                }
             }
             is PostsFailed -> {}
         }
@@ -67,7 +88,7 @@ class TapeViewModel : BaseViewModel<TapeMutation, TapeAction>() {
     private fun loadSummoner() {
         launch {
             try {
-                summonerRepository.getCurrentSummoner(ServiceType.DB)
+                summonerRepository.getCurrentSummoner(DB)
                     ?.also { summoner -> mutate(SummonerReceived(summoner)) }
                     ?: mutate(NoSummonerInDb)
             } catch (e: Exception) {
@@ -84,16 +105,18 @@ class TapeViewModel : BaseViewModel<TapeMutation, TapeAction>() {
         }
     }
 
-    private fun loadPosts(fromStart: Boolean) {
+    private fun loadPosts(serviceType: ServiceType, fromStart: Boolean) {
         launch {
             try {
                 val posts = feedRepository.getPosts(
+                    service = serviceType,
                     limit = POSTS_PAGE_SIZE,
-                    offset = if (fromStart) 0 else this@TapeViewModel.posts.value.size
+                    offset = if (fromStart) 0 else this@TapeViewModel.posts.value.size,
+                    resetInDb = fromStart
                 )
-                mutate(PostsReceived(posts))
+                mutate(PostsReceived(serviceType, posts))
             } catch (e: Exception) {
-                mutate(PostsFailed(e))
+                mutate(PostsFailed(serviceType, e))
             }
         }
     }

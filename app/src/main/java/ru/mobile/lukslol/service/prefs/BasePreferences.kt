@@ -8,15 +8,19 @@ abstract class BasePreference<T, D: T?>(protected val prefs: SharedPreferences, 
 
     protected abstract fun load(): D
 
+    private val lock = Any()
+
     fun set(value: T) {
-        save(value)
+        synchronized(lock) {
+            save(value)
+        }
     }
 
-    fun get(): D {
-        return load()
-    }
+    fun get() = synchronized(lock) { load() }
 
     fun clear() {
-        prefs.edit().remove(key).apply()
+        synchronized(lock) {
+            prefs.edit().remove(key).apply()
+        }
     }
 }

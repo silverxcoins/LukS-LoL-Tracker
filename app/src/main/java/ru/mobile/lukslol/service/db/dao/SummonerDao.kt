@@ -10,7 +10,4 @@ interface SummonerDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(summoner: DbSummoner)
-
-    @Update
-    fun update(summoner: DbSummoner)
 }

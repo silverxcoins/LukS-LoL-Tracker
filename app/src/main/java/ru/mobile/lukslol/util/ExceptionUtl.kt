@@ -2,10 +2,13 @@ package ru.mobile.lukslol.util
 
 import retrofit2.HttpException
 import ru.mobile.lukslol.domain.error.NetworkError
+import java.io.IOException
 import java.lang.Exception
 
 fun Exception.toNetworkError(): NetworkError {
-    return when ((this as? HttpException)?.code()) {
+    return if (this is IOException)
+        NetworkError.CONNECTION
+    else when ((this as? HttpException)?.code()) {
         404 -> NetworkError.NOT_FOUND
         else -> NetworkError.UNHADLED(this)
     }

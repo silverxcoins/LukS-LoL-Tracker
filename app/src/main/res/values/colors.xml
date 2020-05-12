@@ -9,4 +9,9 @@
     <color name="textLight">#BBFFFFFF</color>
 
     <color name="dividerColor">#33FFFFFF</color>
+
+    <color name="refresh_red">#d85252</color>
+    <color name="refresh_yellow">#f5a623</color>
+    <color name="refresh_blue">#258fe5</color>
+    <color name="refresh_purple">#913ca7</color>
 </resources>

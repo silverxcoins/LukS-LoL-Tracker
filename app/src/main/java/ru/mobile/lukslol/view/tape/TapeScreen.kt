@@ -6,15 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
-import androidx.databinding.Observable
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.screen_tape.*
 import kotlinx.coroutines.launch
 import ru.mobile.lukslol.R
 import ru.mobile.lukslol.databinding.ScreenTapeBinding
 import ru.mobile.lukslol.di.Components
+import ru.mobile.lukslol.domain.error.NetworkError
 import ru.mobile.lukslol.view.Screen
 import ru.mobile.lukslol.view.screenresult.ScreenResultProvider
 import ru.mobile.lukslol.view.tape.TapeAction.*
@@ -61,6 +62,7 @@ class TapeScreen : Screen() {
         super.onViewCreated(view, savedInstanceState)
 
         initList()
+        initSwipeRefresh()
         initActions()
     }
 
@@ -76,11 +78,25 @@ class TapeScreen : Screen() {
         viewModel.posts.observe(::getLifecycle) { posts -> controller.posts = posts }
     }
 
+    private fun initSwipeRefresh() {
+        viewModel.refreshing.observe(::getLifecycle) { refreshing ->
+            if (!refreshing) tape_swipe_refresh.isRefreshing = false
+        }
+        tape_swipe_refresh.setOnRefreshListener { viewModel.mutate(Refresh) }
+    }
+
     private fun initActions() {
         launch {
             viewModel.actions { action ->
                 when (action) {
-                    ShowEnterSummonerScreen -> topNavController.navigate(R.id.enterSummonerScreen)
+                    is ShowEnterSummonerScreen -> topNavController.navigate(R.id.enterSummonerScreen)
+                    is ShowErrorSnack -> {
+                        val message = if (action.error is NetworkError.CONNECTION)
+                            R.string.tape_network_error
+                        else
+                            R.string.tape_error
+                        Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG).show()
+                    }
                 }
             }
         }

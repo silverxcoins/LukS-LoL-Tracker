@@ -40,11 +40,11 @@
             android:layout_width="@dimen/tape_avatar_size"
             android:layout_height="@dimen/tape_avatar_size"
             android:layout_marginStart="16dp"
+            android:onClick="@{ _ -> screen.onSummonerIconClick() }"
             app:layout_constraintBottom_toBottomOf="@id/tape_title_bg"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/tape_title_bg"
             app:tapeSummonerAvatar="@{viewModel.summoner.icon}"
-            android:onClick="@{ _ -> screen.onSummonerIconClick() }"
             tools:background="@drawable/circle_placeholder"
             tools:ignore="ContentDescription" />
 
@@ -54,27 +54,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:text="@{viewModel.summoner.name}"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@id/tape_title_bg"
             app:layout_constraintStart_toEndOf="@id/tape_summoner_icon"
             app:layout_constraintTop_toTopOf="@id/tape_title_bg"
-            android:text="@{viewModel.summoner.name}"
             tools:text="Summoner_name" />
 
-        <com.airbnb.epoxy.EpoxyRecyclerView
-            android:id="@+id/tape_list"
+        <ru.mobile.lukslol.view.custom.ColoredSwipeRefreshLayout
+            android:id="@+id/tape_swipe_refresh"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/tape_corners"
-            android:clipToPadding="false"
-            android:paddingStart="8dp"
-            android:paddingTop="24dp"
-            android:paddingEnd="8dp"
-            android:paddingBottom="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tape_title_bg" />
+            app:layout_constraintTop_toBottomOf="@id/tape_title_bg">
+
+            <com.airbnb.epoxy.EpoxyRecyclerView
+                android:id="@+id/tape_list"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/tape_corners"
+                android:clipToPadding="false"
+                android:paddingStart="8dp"
+                android:paddingTop="24dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="24dp" />
+
+        </ru.mobile.lukslol.view.custom.ColoredSwipeRefreshLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -9,12 +9,11 @@ import ru.mobile.lukslol.domain.dto.Post
 import ru.mobile.lukslol.domain.dto.Summoner
 import ru.mobile.lukslol.domain.repository.FeedRepository
 import ru.mobile.lukslol.domain.repository.SummonerRepository
-import ru.mobile.lukslol.util.type.NonNullField
 import ru.mobile.lukslol.util.type.NonNullLiveData
 import ru.mobile.lukslol.view.BaseViewModel
 import ru.mobile.lukslol.view.screenresult.ScreenResultProvider
 import ru.mobile.lukslol.view.start.EnterSummonerScreenResult
-import ru.mobile.lukslol.view.tape.TapeAction.ShowEnterSummonerScreen
+import ru.mobile.lukslol.view.tape.TapeAction.*
 import ru.mobile.lukslol.view.tape.TapeMutation.*
 import javax.inject.Inject
 
@@ -41,7 +40,7 @@ class TapeViewModel : BaseViewModel<TapeMutation, TapeAction>() {
 
     val summoner = ObservableField<Summoner>()
     val posts = NonNullLiveData(emptyList<Post>())
-    val refreshing = NonNullField(false)
+    val refreshing = NonNullLiveData(true)
 
     private var postServiceType: ServiceType = DB
 
@@ -49,25 +48,32 @@ class TapeViewModel : BaseViewModel<TapeMutation, TapeAction>() {
         when (mutation) {
             is SummonerReceived -> {
                 summoner.set(mutation.summoner)
-                refreshing.set(true)
+                refreshing.value = false
                 loadPosts(DB, fromStart = true)
                 loadPosts(NETWORK, fromStart = true)
             }
             is NoSummonerInDb, SummonerIconClick -> action(ShowEnterSummonerScreen)
+            is Refresh -> {
+                if (!refreshing.value) {
+                    refreshing.value = true
+                    loadPosts(NETWORK, fromStart = true)
+                }
+            }
             is PostsReceived -> {
                 posts.value = when (postServiceType) {
                     DB -> {
                         if (mutation.serviceType == DB) {
                             posts.value + mutation.posts
                         } else {
+                            refreshing.value = false
                             postServiceType = NETWORK
                             mutation.posts
                         }
                     }
                     NETWORK -> {
                         if (mutation.serviceType == NETWORK) {
-                            val refreshing = refreshing.get()
-                            this.refreshing.set(false)
+                            val refreshing = refreshing.value
+                            this.refreshing.value = false
                             if (refreshing) mutation.posts else posts.value + mutation.posts
                         } else {
                             posts.value
@@ -76,7 +82,12 @@ class TapeViewModel : BaseViewModel<TapeMutation, TapeAction>() {
                     else -> throw NotImplementedError()
                 }
             }
-            is PostsFailed -> {}
+            is PostsFailed -> {
+                if (mutation.serviceType == NETWORK) {
+                    refreshing.value = false
+                    action(ShowErrorSnack(mutation.error))
+                }
+            }
         }
     }
 

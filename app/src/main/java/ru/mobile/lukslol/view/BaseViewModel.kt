@@ -1,5 +1,6 @@
 package ru.mobile.lukslol.view
 
+import android.util.Log
 import androidx.annotation.CallSuper
 import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
@@ -23,6 +24,7 @@ abstract class BaseViewModel<Mutation, Action> : ViewModel(), CoroutineScope by 
     }
 
     fun mutate(mutation: Mutation) {
+        Log.d(this::class.java.simpleName, "mutation: $mutation")
         launch {
             mutations.send(mutation)
         }

@@ -13,4 +13,9 @@
     <string name="enter_summoner_info">Введи имя своего аккаунта, это поможет нам получать данные о твоих играх</string>
     <string name="enter_summoner_not_found">Призыватель не найден</string>
     <!-- endregion -->
+
+    <!-- region Start -->
+    <string name="tape_error">Не удалось обновить ленту</string>
+    <string name="tape_network_error">Не удалось обновить ленту - ошибка сети</string>
+    <!-- endregion -->
 </resources>

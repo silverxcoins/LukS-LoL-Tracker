@@ -42,7 +42,7 @@ class TapeScreen : Screen() {
     @Inject
     lateinit var screenResultProvider: ScreenResultProvider
 
-    private val controller = TapeController()
+    private val controller = TapeController { viewModel.mutate(NeedMorePosts) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,13 +75,14 @@ class TapeScreen : Screen() {
             layoutManager = LinearLayoutManager(context)
             setController(controller)
         }
-        viewModel.posts.observe(::getLifecycle) { posts -> controller.posts = posts }
+        viewModel.apply{
+            posts.observe { posts -> controller.posts = posts }
+            pagination.observe { pagination -> controller.pagination = pagination }
+        }
     }
 
     private fun initSwipeRefresh() {
-        viewModel.refreshing.observe(::getLifecycle) { refreshing ->
-            if (!refreshing) tape_swipe_refresh.isRefreshing = false
-        }
+        viewModel.refreshing.observe { refreshing -> if (!refreshing) tape_swipe_refresh.isRefreshing = false }
         tape_swipe_refresh.setOnRefreshListener { viewModel.mutate(Refresh) }
     }
 

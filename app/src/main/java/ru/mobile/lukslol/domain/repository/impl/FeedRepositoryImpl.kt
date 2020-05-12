@@ -24,13 +24,13 @@ class FeedRepositoryImpl(
         return when (service) {
             ServiceType.NETWORK -> networkRequest {
                 val posts = networkManager.getPosts(limit, offset).await()
-                    .mapNotNull { post -> post.toDomainPost() }
+                    .map { post -> post.toDomainPost() }
                 savePostsToDb(posts, summonerId, resetInDb)
                 posts
             }
             ServiceType.DB -> withContext(Dispatchers.IO) {
                 db.postDao().getPosts(summonerId!!, limit, offset)
-                    .mapNotNull { post -> post.toDomainPost() }
+                    .map { post -> post.toDomainPost() }
             }
             else -> throw NotImplementedError()
         }

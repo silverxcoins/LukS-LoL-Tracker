@@ -5,6 +5,7 @@
     <string name="go">Вперёд</string>
     <string name="error_unknown">Неизвестная ошибка</string>
     <string name="error_network_connection">Ошибка сети</string>
+    <string name="error_pagination">Не удалось загрузить данные.\nНажмите, чтобы повторить.</string>
     <!-- endregion -->
 
     <!-- region Start -->

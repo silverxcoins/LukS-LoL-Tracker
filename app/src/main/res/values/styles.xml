@@ -74,4 +74,16 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="TextRoboto.Body.Small">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:letterSpacing">0.02</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextRoboto.Body.Small.Light">
+        <item name="android:textColor">@color/textLight</item>
+    </style>
+
+
 </resources>

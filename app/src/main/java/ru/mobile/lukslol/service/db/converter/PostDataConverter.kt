@@ -21,12 +21,12 @@ class PostDataConverter {
         val jsonObject = try {
             gson.fromJson(json, JsonObject::class.java)
         } catch (e: Exception) {
-            return Unknown
+            return Unknown()
         }
         return when (jsonObject["type"].asString) {
             Custom.TYPE_NAME -> gson.fromJson(jsonObject, Custom::class.java)
             Greeting.TYPE_NAME -> gson.fromJson(jsonObject, Greeting::class.java)
-            else -> Unknown
+            else -> Unknown()
         }
     }
 }

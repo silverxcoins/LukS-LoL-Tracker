@@ -26,4 +26,12 @@ sealed class Post {
         override val summoner: Summoner?,
         val message: String
     ) : Post()
+
+    class Unknown(
+        override val id: String,
+        override val puuid: String,
+        override val title: String,
+        override val date: Calendar,
+        override val summoner: Summoner?
+    ) : Post()
 }

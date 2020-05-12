@@ -11,6 +11,7 @@ sealed class TapeMutation {
     object Refresh : TapeMutation()
     data class PostsReceived(val serviceType: ServiceType, val posts: List<Post>) : TapeMutation()
     data class PostsFailed(val serviceType: ServiceType, val error: Exception) : TapeMutation()
+    object NeedMorePosts : TapeMutation()
 }
 
 sealed class TapeAction {

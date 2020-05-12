@@ -8,7 +8,7 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import io.reactivex.disposables.CompositeDisposable
@@ -42,6 +42,10 @@ abstract class BaseFragment : Fragment(), CoroutineScope by MainScope() {
 
     protected fun <T : ViewDataBinding> inflateBinding(inflater: LayoutInflater, @LayoutRes layoutId: Int, container: ViewGroup?): T {
         return DataBindingUtil.inflate(inflater, layoutId, container, false)
+    }
+
+    protected fun <T> LiveData<T>.observe(f: (T) -> Unit) {
+        observe(::getLifecycle, f)
     }
 
 }

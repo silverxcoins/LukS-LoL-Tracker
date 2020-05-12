@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ru.mobile.lukslol.view.pagination.PaginationErrorView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/TextRoboto.Body.Small.Light"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="?selectableItemBackground"
+    tools:background="@color/colorPrimary"
+    android:text="@string/error_pagination"
+    android:gravity="center"/>
